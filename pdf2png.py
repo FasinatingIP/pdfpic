@@ -13,6 +13,13 @@ from PIL import Image, ImageEnhance
 import zipfile
 #print(os.__version__)
 #print(fitz.__doc__)
+#全局配置
+st.set_page_config(
+    page_title="pdfpic",    #页面标题
+    page_icon=":framed_picture:",       #icon:emoji":rainbow:             
+    initial_sidebar_state="auto"  #侧边栏
+)
+
 def readuploadimg(upload_file):
     # To read file as bytes:
     bytes_data = upload_file.getvalue()
