@@ -41,7 +41,7 @@ def pdf2png(pdf_file,dpi,outtype):
     bytes_data = pdf_file.getvalue()
     pdfDoc = fitz.open(stream=bytes_data)
     filename=pdf_file.name[:pdf_file.name.rindex(".")]
-    zipname=filename+datime+'.zip'
+    zipname="./iodir/"+filename+datime+'.zip'
     page_num = 1
     with zipfile.ZipFile(zipname,'w') as z:
         for page in pdfDoc:
@@ -49,7 +49,7 @@ def pdf2png(pdf_file,dpi,outtype):
             pdfDoc=readuploadpdf(pdf_file)
             mat = fitz.Matrix()
             pixmap = page.get_pixmap(matrix=mat, alpha=False,dpi=dpi)
-            output_filename=datime+f"{filename}-{page_num}.{outtype}"
+            output_filename="./iodir/"+datime+f"{filename}-{page_num}.{outtype}"
             pixmap.pil_save(output_filename)
             st.markdown(f"第{page_num}张图片已生成！")
             page_num = page_num + 1 
@@ -104,7 +104,7 @@ with tab2:
         # 上传图像
         image_files = st.file_uploader("(支持多张！！)请选择要上传的图片或拖拽文件至下方区域！",
                                          type=['jpg','png'],accept_multiple_files=True)
-        out_file=output_filename+datime+".pdf"
+        out_file="./iodir/"+output_filename+datime+".pdf"
         submitted = st.form_submit_button("点我开始转换")
     
     if submitted:
@@ -139,7 +139,7 @@ with tab3:
         # 上传图像
         image_files = st.file_uploader("(支持多张！！)请选择要上传的图片或拖拽文件至下方区域！",
                                          type=['jpg','png'],accept_multiple_files=True)
-        output_file=output_filename+datime+lpictype
+        output_file="./iodir/"+output_filename+datime+lpictype
         submitted = st.form_submit_button("点我开始转换")
     
     if submitted:
@@ -200,6 +200,10 @@ with tab4:
     from docxcompose.composer import Composer
     #import docxcompose
     #print(docx.__version__)
+    if st.button('清除缓存'):
+        for file in glob("./iodir/*"):
+            os.remove(file)
+            st.success("清空成功！")
     #Loop Through the folder projects all files and deleting them one by one
     
     #界面
@@ -211,7 +215,7 @@ with tab4:
         new_page_c=st.radio(
             "是否另开新页",
             ("是","否"),horizontal=True)
-        save_path=output_filename+datime+'.docx'
+        save_path="./iodir/"+output_filename+datime+'.docx'
         submitted = st.form_submit_button("点我开始转换")
     
     if submitted:
